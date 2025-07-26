@@ -3598,6 +3598,11 @@ function addInboundAccount($server_id, $client_id, $inbound_id, $expiryTime, $re
     $serverType = $server_info['type'];
     $reality = $server_info['reality'];
     $volume = ($volume == 0) ? 0 : floor($volume * 1073741824);
+    
+    // بررسی و اصلاح remark اگر خالی باشد
+    if(empty($remark) || $remark === null || $remark === 'null'){
+        $remark = "user-" . RandomString(8);
+    }
 
     $response = getJson($server_id);
     if(!$response) return null;
@@ -5147,6 +5152,11 @@ function getMarzbanHosts($server_id){
 function addMarzbanUser($server_id, $remark, $volume, $days, $plan_id){
     global $connection;
     
+    // بررسی و اصلاح remark اگر خالی باشد
+    if(empty($remark) || $remark === null || $remark === 'null'){
+        $remark = "user-" . RandomString(8);
+    }
+    
     $stmt = $connection->prepare("SELECT * FROM server_config WHERE id=?");
     $stmt->bind_param("i", $server_id);
     $stmt->execute();
@@ -5605,6 +5615,11 @@ function addUser($server_id, $client_id, $protocol, $port, $expiryTime, $remark,
     
     $volume = ($volume == 0) ? 0 : floor($volume * 1073741824);
     $headers = getNewHeaders($netType, $request_header, $response_header, $header_type);
+    
+    // بررسی و اصلاح remark اگر خالی باشد
+    if(empty($remark) || $remark === null || $remark === 'null'){
+        $remark = "user-" . RandomString(8);
+    }
 //---------------------------------------Trojan------------------------------------//
     if($protocol == 'trojan'){
         // protocol trojan

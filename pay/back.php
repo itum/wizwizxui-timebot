@@ -283,6 +283,12 @@ if($payType == "BUY_SUB"){
     $stmt->execute();
     $serverInfo = $stmt->get_result()->fetch_assoc();
     $srv_remark = $serverInfo['remark'];
+    
+    // بررسی و اصلاح srv_remark اگر خالی باشد
+    if(empty($srv_remark) || $srv_remark === null || $srv_remark === 'null'){
+        $srv_remark = "server";
+    }
+    
     $stmt->close();
 
     $stmt = $connection->prepare("SELECT * FROM `server_config` WHERE `id`=?");

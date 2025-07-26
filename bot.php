@@ -1222,6 +1222,12 @@ if(preg_match('/^createAccAmount(\d+)_(\d+)_(\d+)/',$userInfo['step'], $match) &
     $stmt->execute();
     $serverInfo = $stmt->get_result()->fetch_assoc();
     $srv_remark = $serverInfo['remark'];
+    
+    // بررسی و اصلاح srv_remark اگر خالی باشد
+    if(empty($srv_remark) || $srv_remark === null || $srv_remark === 'null'){
+        $srv_remark = "server";
+    }
+    
     $stmt->close();
     $savedinfo = file_get_contents('settings/temp.txt');
     $savedinfo = explode('-',$savedinfo);
